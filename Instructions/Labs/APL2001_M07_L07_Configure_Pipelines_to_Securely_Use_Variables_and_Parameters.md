@@ -77,33 +77,37 @@ lab:
 
 1. `Restore`、`Build`、`Test` タスクのハードコーディングされたパスを、先ほど作成したパラメーターに置き換えます。
 
-   - `Restore` および `Build` タスクの **projects**: `**/*.sln` を projects: ${{ parameters.dotNetProjects }} に置き換えます。
-   - `Test` タスクの **projects**: `tests/UnitTests/*.csproj` を projects: ${{ parameters.testProjects }} に置き換えます。
+   - **プロジェクトの置き換え**: `**/*.sln` プロジェクト: `Restore` および `Build` タスク内の `${{ "{{" }} parameters.dotNetProjects }}`。
+   - **プロジェクトの置き換え**: `tests/UnitTests/*.csproj` プロジェクト: `Test` タスク内の `${{ "{{" }} parametertestProjects }}`
 
-   YAML ファイルの steps セクションの `Restore`、`Build`、`Test` タスクは次のようになります。
+    YAML ファイルの steps セクションの `Restore`、`Build`、`Test` タスクは次のようになります。
 
-   ```yaml
-       steps:
-       - task: DotNetCoreCLI@2
-         displayName: Restore
-         inputs:
-           command: 'restore'
-           projects: ${{ parameters.dotNetProjects }}
-           feedsToUse: 'select'
-   
-       - task: DotNetCoreCLI@2
-         displayName: Build
-         inputs:
-           command: 'build'
-           projects: ${{ parameters.dotNetProjects }}
-   
-       - task: DotNetCoreCLI@2
-         displayName: Test
-         inputs:
-           command: 'test'
-           projects: ${{ parameters.testProjects }}
+    {% raw %}
 
-   ```
+    ```yaml
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: 'restore'
+        projects: ${{ parameters.dotNetProjects }}
+        feedsToUse: 'select'
+    
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: 'build'
+        projects: ${{ parameters.dotNetProjects }}
+    
+    - task: DotNetCoreCLI@2
+      displayName: Test
+      inputs:
+        command: 'test'
+        projects: ${{ parameters.testProjects }}
+    
+    ```
+
+    {% endraw %}
 
 1. パイプラインを保存して実行します。 パイプラインの実行が正常に完了することを確認します。
 
@@ -145,11 +149,15 @@ lab:
 
 1. 'Build' タスクで、command: 'build' を以下の行に置き換えて、変数グループからビルド構成を利用します。
 
-   ```yaml
-           command: 'build'
-           projects: ${{ parameters.dotNetProjects }}
-           configuration: $(buildConfiguration)
-   ```
+    {% raw %}
+
+    ```yaml
+            command: 'build'
+            projects: ${{ parameters.dotNetProjects }}
+            configuration: $(buildConfiguration)
+    ```
+
+    {% endraw %}
 
 1. パイプラインを保存して実行します。 ビルド構成が `Release` に設定された状態で、正常に実行されます。 これを確認するには、'Build' タスクのログを確認します。
 
@@ -166,42 +174,42 @@ lab:
 
 1. stages セクションの先頭 (`stage:` 行の後) に、パイプラインの実行前に必須の変数を検証する **Validate** という名前の新しいステージを追加します。
 
-   ```yaml
-   - stage: Validate
-     displayName: Validate mandatory variables
-     jobs:
-     - job: ValidateVariables
-       pool:
-         vmImage: ubuntu-latest
-       steps:
-       - script: |
-           if [ -z "$(buildConfiguration)" ]; then
-             echo "Error: buildConfiguration variable is not set"
-             exit 1
-           fi
-         displayName: 'Validate Variables'
-    ```
+    ```yaml
+    - stage: Validate
+      displayName: Validate mandatory variables
+      jobs:
+      - job: ValidateVariables
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+        - script: |
+            if [ -z "$(buildConfiguration)" ]; then
+              echo "Error: buildConfiguration variable is not set"
+              exit 1
+            fi
+          displayName: 'Validate Variables'
+     ```
 
-   > [!NOTE]
-   > このステージでは、buildConfiguration 変数を検証するスクリプトを実行します。 変数が設定されていない場合、スクリプトは失敗し、パイプラインは停止します。
+    > [!NOTE]
+    > このステージでは、buildConfiguration 変数を検証するスクリプトを実行します。 変数が設定されていない場合、スクリプトは失敗し、パイプラインは停止します。
 
 1. **Build** ステージの先頭に `dependsOn: Validate` を追加して、**Build** ステージを **Validate** ステージに依存させます。
 
-   ```yaml
-   - stage: Build
-     displayName: Build .Net Core Solution
-     dependsOn: Validate
-      ```
+    ```yaml
+    - stage: Build
+      displayName: Build .Net Core Solution
+      dependsOn: Validate
+    ```
 
 1. パイプラインを保存して実行します。 buildConfiguration 変数が変数グループに設定されているため、正常に実行されます。
 
 1. 検証をテストするには、変数グループから buildConfiguration 変数を削除するか、変数グループを削除して、パイプラインをもう一度実行します。 次のエラーにより失敗します。
 
-   ```yaml
-   Error: buildConfiguration variable is not set   
-   ```
+    ```yaml
+    Error: buildConfiguration variable is not set   
+    ```
 
-   ![検証が失敗したパイプライン実行のスクリーンショット。](media/pipeline-validation-fail.png)
+    ![検証が失敗したパイプライン実行のスクリーンショット。](media/pipeline-validation-fail.png)
 
 1. 変数グループを追加し、buildConfiguration 変数を変数グループに追加し直し、パイプラインをもう一度実行します。 これは正常に実行される必要があります。
 
