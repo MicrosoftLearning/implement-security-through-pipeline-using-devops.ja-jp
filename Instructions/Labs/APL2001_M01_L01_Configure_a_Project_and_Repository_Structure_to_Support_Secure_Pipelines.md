@@ -90,9 +90,9 @@ lab:
 
 1. **[既存の Azure Pipelines YAML ファイル]** を選びます。
 
-1. **/.ado/eshoponweb-ci.yml** ファイルを選択し、**[続行]** を選択します。
+1. **/.ado/eshoponweb-ci.yml** ファイルを選び、**[続行]** を選びます。
 
-1. **[実行]** ボタンを選択してパイプラインを実行します。
+1. **[実行]** ボタンを選んでパイプラインを実行します。
 
    > [!NOTE]
    > パイプラインには、プロジェクト名に基づく名前が付けられます。 パイプラインを特定しやすいように名前を変更します。
@@ -161,7 +161,7 @@ lab:
    variables:
      resource-group: 'rg-eshoponweb-secure'
      location: 'southcentralus' #the name of the Azure region you want to deploy your resources
-     templateFile: '.azure/bicep/webapp.bicep'
+     templateFile: 'infra/webapp.bicep'
      subscriptionid: 'YOUR-SUBSCRIPTION-ID'
      azureserviceconnection: 'azure subs' #the name of the service connection to your Azure subscription
      webappname: 'eshoponweb-lab-secure-XXXXXX' #the globally unique name of the web app
@@ -253,7 +253,7 @@ lab:
 
 #### タスク 3:Azure DevOps リポジトリを再作成する
 
-1. Azure DevOps ポータルの **eShopOnWeb** プロジェクトで、左下隅にある **[プロジェクトの設定]** を選択します。
+1. Azure DevOps ポータルの **eShopOnWeb** プロジェクトで、左下隅にある **[プロジェクトの設定]** を選びます。
 
 1. 左側の **[プロジェクトの設定]** 縦型メニューの **[リポジトリ]** セクションで、**[リポジトリ]** を選択します。
 
@@ -261,17 +261,17 @@ lab:
 
 1. **[eShopOnWeb リポジトリの名前を変更する]** ウィンドウの **[リポジトリ名]** テキスト ボックスに「**eShopOnWeb_old**」と入力し、**[名前の変更]** を選択します。
 
-1. **[すべてのリポジトリ]** ペインに戻り、**[+ 作成]** を選択します。
+1. **[すべてのリポジトリ]** ペインに戻り、**[+ 作成]** を選びます。
 
-1. **[リポジトリの作成]** ペインの **[リポジトリ名]** テキスト ボックスに「**eShopOnWeb**」と入力し、**[Readme の追加]** チェックボックスをオフにして、**[作成]** を選択します。
+1. **[リポジトリの作成]** ペインの **[リポジトリ名]** テキスト ボックスに「**eShopOnWeb**」と入力し、**[Readme の追加]** チェックボックスをオフにして、**[作成]** を選びます。
 
-1. **[すべてのリポジトリ]** ペインに戻り、**eShopOnWeb_old** リポジトリ エントリの右端にマウス ポインターを置き、**[その他のオプション]** 省略記号アイコンが表示されたらそれを選択し、**[その他のオプション]** メニューで **[削除]** を選択します。  
+1. **[すべてのリポジトリ]** ペインに戻り、**eShopOnWeb_old** リポジトリ エントリの右端にマウス ポインターを置き、**[その他のオプション]** の [...] アイコンが表示されたら、それを選びます。**[その他のオプション]** メニューで **[削除]** を選びます。  
 
-1. **[eShopOnWeb_old リポジトリの削除]** ウィンドウで「**eShopOnWeb_old**」と入力し、**[削除]** を選択します。
+1. **[eShopOnWeb_old リポジトリの削除]** ウィンドウで「**eShopOnWeb_old**」と入力し、**[削除]** を選びます。
 
-1. Azure DevOps ポータルの左側のナビゲーション メニューで **[Repos]** を選択します。
+1. Azure DevOps ポータルの左側のナビゲーション メニューで **[リポジトリ]** を選びます。
 
-1. **[eShopOnWeb は空です。]** をクリックします。 ペインで **[リポジトリのインポート]** を選択します。
+1. **[eShopOnWeb は空です。]** をクリックします。 ペインで **[リポジトリのインポート]** を選びます。
 
 1. **[Git リポジトリをインポートする]** ウィンドウで、URL `https://github.com/MicrosoftLearning/eShopOnWeb` を貼り付けて、**[インポート]** を選びます。
 

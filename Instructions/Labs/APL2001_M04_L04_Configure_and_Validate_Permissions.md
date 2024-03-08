@@ -15,7 +15,7 @@ lab:
 ラボの演習を行うには、Azure サブスクリプション、Azure DevOps 組織、eShopOnWeb アプリケーションが必要です。
 
 - 手順に従って[ラボ環境を検証](APL2001_M00_Validate_Lab_Environment.md)します。
-- ラボ「[セキュリティで保護されたパイプライン用にエージェントとエージェント プールを構成する](/Instructions/Labs/APL2001_M03_L03_Configure_Agents_And_Agent_Pools_for_Secure_Pipelines.md)」または「[セルフホステッド エージェントをインストールする](https://docs.microsoft.com/azure/devops/pipelines/agents/v2-windows?view=azure-devops#install)」の手順に従ってセルフホステッド エージェントをインストールします。
+- ラボ「[セキュリティで保護されたパイプライン用にエージェントとエージェント プールを構成する](/Instructions/Labs/APL2001_M02_L02_Configure_Agents_And_Agent_Pools_for_Secure_Pipelines.md)」または「[セルフホステッド エージェントをインストールする](https://docs.microsoft.com/azure/devops/pipelines/agents/v2-windows?view=azure-devops#install)」の手順に従ってセルフホステッド エージェントをインストールします。
 
 ## 手順
 
