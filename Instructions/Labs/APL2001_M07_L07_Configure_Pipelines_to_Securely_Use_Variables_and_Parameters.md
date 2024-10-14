@@ -77,8 +77,8 @@ lab:
 
 1. `Restore`、`Build`、`Test` タスクのハードコーディングされたパスを、先ほど作成したパラメーターに置き換えます。
 
-   - **プロジェクトの置き換え**: `**/*.sln` プロジェクト: `Restore` および `Build` タスク内の `${{ "{{" }} parameters.dotNetProjects }}`。
-   - **プロジェクトの置き換え**: `tests/UnitTests/*.csproj` プロジェクト: `Test` タスク内の `${{ "{{" }} parametertestProjects }}`
+   - **プロジェクトの置き換え**: `**/*.sln` プロジェクト: `Restore` および `Build` タスク内の `${{ parameters.dotNetProjects }}`。
+   - **プロジェクトの置き換え**: `tests/UnitTests/*.csproj` プロジェクト: `Test` タスク内の `${{ parameters.testProjects }}`
 
     YAML ファイルの steps セクションの `Restore`、`Build`、`Test` タスクは次のようになります。
 
