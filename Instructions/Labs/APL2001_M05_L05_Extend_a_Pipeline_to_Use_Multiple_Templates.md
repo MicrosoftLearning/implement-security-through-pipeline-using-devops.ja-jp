@@ -20,15 +20,17 @@ lab:
 
 ### 演習 1:マルチステージの YAML パイプラインを作成する
 
+この演習では、Azure DevOps でマルチステージの YAML パイプラインを作成します。
+
 #### タスク 1:マルチステージのメイン YAML パイプラインを作成する
 
-1. Azure DevOps ポータル (`https://dev.azure.com`) に移動し、自分の組織を開きます。
+1. Azure DevOps ポータル (`https://aex.dev.azure.com`) に移動し、自分の組織を開きます。
 
 1. **eShopOnWeb** プロジェクトを開きます。
 
 1. **[パイプライン] > [パイプライン]** に移動します。
 
-1. **[Create Pipeline]** を選択します。
+1. **[新しいパイプライン]** ボタンをクリックします。
 
 1. **[Azure Repos Git (Yaml)]** を選びます。
 
@@ -86,8 +88,8 @@ lab:
    ```yaml
    variables:
      resource-group: 'YOUR-RESOURCE-GROUP-NAME'
-     location: 'southcentralus' #name of the Azure region you want to deploy your resources
-     templateFile: '.azure/bicep/webapp.bicep'
+     location: 'centralus'
+     templateFile: 'infra/webapp.bicep'
      subscriptionid: 'YOUR-SUBSCRIPTION-ID'
      azureserviceconnection: 'YOUR-AZURE-SERVICE-CONNECTION-NAME'
      webappname: 'YOUR-WEB-APP-NAME'
@@ -95,24 +97,23 @@ lab:
 
 1. 変数の値を実際の環境の値に置き換えます。
 
-   - **YOUR-RESOURCE-GROUP-NAME** を、このラボで使用するリソース グループの名前に置き換えます (たとえば、**rg-eshoponweb-multi**)。
-   - **location** 変数の値を、リソースをデプロイする Azure リージョンの名前に設定します (たとえば、**southcentralus**)。
-   - **YOUR-SUBSCRIPTION-ID** を、使用している Azure サブスクリプション ID に置き換えます。
+   - **YOUR-RESOURCE-GROUP-NAME** を、このラボで使用するリソース グループの名前 (たとえば、**rg-eshoponweb-secure**) に置き換えます。
+   - **location** 変数の値を、リソースをデプロイする Azure リージョンの名前 (たとえば、**centralus**) に設定します。
+   - **YOUR-SUBSCRIPTION-ID** を、お使いの Azure サブスクリプション ID に置き換えます。
    - **YOUR-AZURE-SERVICE-CONNECTION-NAME** を、**azure subs** に置き換えます
-   - **YOUR-WEB-APP-NAME** を、デプロイする Web アプリのグローバルに一意な名前に置き換えます (たとえば、文字列 **eshoponweb-lab-multi-** に続けてランダムな 6 桁の数字)。  
+   - **YOUR-WEB-APP-NAME** を、デプロイする Web アプリのグローバル一意識別子 (たとえば、文字列 **eshoponweb-lab-multi-123456** の後にランダムな 6 桁の数字) に置き換えます。  
 
 1. **[コミット]** を選択し、コミットの [コメント] テキスト ボックスに「`[skip ci]`」と入力し、**[コミット]** を選択します。
 
-   > [!NOTE]
-   > `[skip ci]` コメントをコミットに追加すると、パイプラインが自動実行されなくなります。この時点では、パイプラインは既定でリポジトリに対する変更ごとに実行されています。 
+   > **注**: `[skip ci]` コメントをコミットに追加すると、パイプラインが自動実行されなくなります。この時点では、パイプラインは既定でリポジトリへの変更が発生するたびに実行されています。 
 
 #### タスク 3:テンプレートを使用するようにパイプラインを準備する
 
-1. Azure DevOps ポータルの **eShopOnWeb** プロジェクト ページで、**[リポジトリ]** に移動します。 
+1. Azure DevOps ポータルの **eShopOnWeb** プロジェクト ページで、**[リポジトリ]** に移動します。
 
 1. リポジトリのルート ディレクトリで、**azure-pipelines.yml** を選択します。これには **eShopOnWeb-MultiStage-Main** パイプラインの定義が含まれています。
 
-1. **編集**を選択します。
+1. **[編集]** ボタンをクリックします。
 
 1. **azure-pipelines.yml** ファイルの内容を次のコードに置き換えます。
 
@@ -142,6 +143,8 @@ lab:
 
 1. **eShopOnWeb** プロジェクトの **[リポジトリ]** で、**.ado** ディレクトリを選択し、**eshoponweb-ci.yml** ファイルを選択します。
 
+1. **[編集]** ボタンをクリックします。
+
 1. **jobs** セクションの上にあるものすべてを削除します。
 
    ```yaml
@@ -163,30 +166,43 @@ lab:
 
 1. **eShopOnWeb** プロジェクトの **[リポジトリ]** で、**.ado** ディレクトリを選択し、**eshoponweb-cd-webapp-code.yml** ファイルを選択します。
 
+1. **[編集]** ボタンをクリックします。
+
 1. **jobs** セクションの上にあるものすべてを削除します。
 
    ```yaml
-   #NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml")
-   
-   # Trigger CD when CI executed successfully
-   resources:
-     pipelines:
-       - pipeline: eshoponweb-ci
-         source: eshoponweb-ci # given pipeline name
-         trigger: true
-
-   variables:
-     resource-group: 'rg-eshoponweb'
-     location: 'southcentralus'
-     templateFile: '.azure/bicep/webapp.bicep'
-     subscriptionid: ''
-     azureserviceconnection: 'azure subs'
-     webappname: 'eshoponweb-lab'
-     # webappname: 'webapp-windows-eshop'
-   
-   stages:
-   - stage: Deploy
-     displayName: Deploy to WebApp`
+    # NAME THE PIPELINE SAME AS FILE (WITHOUT ".yml") #
+    # Trigger CD when CI executed successfully
+    
+    resources:
+      pipelines:
+        - pipeline: eshoponweb-ci
+          source: eshoponweb-ci # given pipeline name
+          trigger: true
+    
+    repositories:
+      - repository: eShopSecurity
+        type: git
+        name: eShopSecurity/eShopSecurity # name of the project and repository
+    
+    variables:
+      - template: eshoponweb-secure-variables.yml@eShopSecurity # name of the template and repository
+    
+    stages:
+      - stage: Test
+        displayName: Testing WebApp
+        jobs:
+          - deployment: Test
+            pool: eShopOnWebSelfPool
+            environment: Test
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - script: echo Hello world! Testing environments!
+    
+      - stage: Deploy
+        displayName: Deploy to WebApp
    ```
 
 1. **#download artifacts** ステップの既存の内容を次のように置き換えます。
@@ -208,58 +224,16 @@ lab:
 
 1. **[パイプラインの実行]** を選択します。
 
-1. パイプラインが **Test** 環境の **Deploy** ステージに到達したら、パイプラインを開き、"この実行でテストを続行する前に、リソースにアクセスするためのアクセス許可がこのパイプラインに必要です" というメッセージを確認します。 **[表示]** を選び、**[許可]** を選んでパイプラインの実行を許可します。
+   > **注**: この実行を続ける前に、リソースにアクセスするためのアクセス許可がパイプラインに必要であるというメッセージが表示された場合は、**[表示]**、**[許可]**、さらにもう一度 **[許可]** を選択して、パイプラインの実行を許可します。
 
-   > [!NOTE]
-   > Deploy ステージのジョブが失敗した場合は、パイプラインの実行ページに移動し、**[失敗したジョブの再実行]** を選択します。
-
-1. パイプラインが **Production** 環境の **Deploy** ステージに到達したら、パイプラインを開き、"この実行で運用を続行する前に、リソースにアクセスするためのアクセス許可がこのパイプラインに必要です" というメッセージを確認します。 **[表示]** を選び、**[許可]** を選んでパイプラインの実行を許可します。
+   > **注**: デプロイ ステージのジョブが失敗した場合は、パイプライン実行ページに移動し、[失敗したジョブの再実行] を選択します。
 
 1. パイプラインが完了するまで待ってから、結果を確認します。
 
    ![3 つのステージで実行されているパイプラインと、対応するジョブのスクリーンショット](media/multi-stage-completed.png)
 
-### 演習 2:Azure と Azure DevOps リソースのクリーンアップを実行する
-
-この演習では、このラボで作成した Azure と Azure DevOps のリソースを削除します。
-
-#### タスク 1:Azure リソースを削除する
-
-1. Azure portal で、デプロイされたリソースを含むリソース グループ **rg-eshoponweb-multi** に移動し、**[リソース グループの削除]** を選んで、このラボで作成されたすべてのリソースを削除します。
-
-#### タスク 2:Azure DevOps パイプラインを削除する
-
-1. Azure DevOps ポータル (`https://dev.azure.com`) に移動し、自分の組織を開きます。
-
-1. **eShopOnWeb** プロジェクトを開きます。
-
-1. **[パイプライン] > [パイプライン]** に移動します。
-
-1. **[パイプライン] > [パイプライン]** に移動し、既存のパイプラインを削除します。
-
-#### タスク 3:Azure DevOps リポジトリを再作成する
-
-1. Azure DevOps ポータルの **eShopOnWeb** プロジェクトで、左下隅にある **[プロジェクトの設定]** を選びます。
-
-1. 左側の **[プロジェクトの設定]** 縦型メニューの **[リポジトリ]** セクションで、**[リポジトリ]** を選びます。
-
-1. **[すべてのリポジトリ]** ペインで、**eShopOnWeb** リポジトリ エントリの右端にマウス ポインターを置き、**[その他のオプション]** の [...] アイコンが表示されたら、それを選びます。**[その他のオプション]** メニューで **[名前の変更]** を選びます。  
-
-1. **[eShopOnWeb リポジトリの名前を変更する]** ウィンドウの **[リポジトリ名]** テキスト ボックスに「**eShopOnWeb_old**」と入力し、**[名前の変更]** を選びます。
-
-1. **[すべてのリポジトリ]** ペインに戻り、**[+ 作成]** を選びます。
-
-1. **[リポジトリの作成]** ペインの **[リポジトリ名]** テキスト ボックスに「**eShopOnWeb**」と入力し、**[Readme の追加]** チェックボックスをオフにして、**[作成]** を選びます。
-
-1. **[すべてのリポジトリ]** ペインに戻り、**eShopOnWeb_old** リポジトリ エントリの右端にマウス ポインターを置き、**[その他のオプション]** の [...] アイコンが表示されたら、それを選びます。**[その他のオプション]** メニューで **[削除]** を選びます。  
-
-1. **[eShopOnWeb_old リポジトリの削除]** ウィンドウで「**eShopOnWeb_old**」と入力し、**[削除]** を選びます。
-
-1. Azure DevOps ポータルの左側のナビゲーション メニューで **[リポジトリ]** を選びます。
-
-1. **[eShopOnWeb は空です。]** をクリックします。 ペインで **[リポジトリのインポート]** を選びます。
-
-1. **[Git リポジトリをインポートする]** ウィンドウで、URL `https://github.com/MicrosoftLearning/eShopOnWeb` を貼り付けて、**[インポート]** を選びます。
+> [!IMPORTANT]
+> 不要な料金が発生しないように、Azure portal で作成されたリソースを必ず削除してください。
 
 ## 確認
 

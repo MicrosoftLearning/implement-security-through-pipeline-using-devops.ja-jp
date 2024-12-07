@@ -20,17 +20,17 @@ lab:
 
 ### 演習 1:パラメーターと変数の型を確認する
 
-#### タスク 1: CI パイプラインをインポートして実行する
+#### タスク 1: (完了している場合はスキップしてください) CI パイプラインをインポートして実行する
 
 まず、[eshoponweb-ci.yml](https://github.com/MicrosoftLearning/eShopOnWeb/blob/main/.ado/eshoponweb-ci.yml) という CI パイプラインをインポートします。
 
-1. Azure DevOps ポータル (`https://dev.azure.com`) に移動し、自分の組織を開きます。
+1. Azure DevOps ポータル (`https://aex.dev.azure.com`) に移動し、自分の組織を開きます。
 
-1. eShopOnWeb プロジェクトを開きます。
+1. Azure DevOps で **eShopOnWeb** プロジェクトを開きます。
 
 1. **[パイプライン] > [パイプライン]** に移動します。
 
-1. **[Create Pipeline]** を選択します。
+1. **[パイプラインを作成]** ボタンを選択します。
 
 1. **[Azure Repos Git (Yaml)]** を選びます。
 
@@ -38,26 +38,25 @@ lab:
 
 1. **[既存の Azure Pipelines YAML ファイル]** を選びます。
 
-1. **/.ado/eshoponweb-ci.yml** ファイルを選び、**[続行]** を選びます。
+1. **/.ado/eshoponweb-ci.yml** ファイルを選び、 **[続行]** をクリックします。
 
 1. **[実行]** ボタンを選んでパイプラインを実行します。
 
-   > [!NOTE]
-   > パイプラインには、プロジェクト名に基づく名前が付けられます。 名前を変更してパイプラインを識別しやすくします。
+   > **注**: パイプラインには、プロジェクト名に基づく名前が付けられます。 パイプラインを特定しやすいように名前を変更します。
 
-1. **[パイプライン] > [パイプライン]** に移動し、先ほど作成したパイプラインを選択します。 省略記号と **[名前の変更または移動]** オプションを選択します。
+1. **[パイプライン] > [パイプライン]** に移動し、先ほど作成したパイプラインを選択します。 省略記号を選択し、**[名前の変更/移動]** オプションを選択します。
 
-1. **eshoponweb-ci-parameters** という 名前を付け、**[保存]** を選択します。
+1. **eshoponweb-ci** という名前を付けて、**[保存]** を選択します。
 
 #### タスク 2:YAML パイプラインのパラメーターの型を確認する
 
 このタスクでは、パイプラインのパラメーターとパラメーターの型を設定します。
 
-1. **[パイプライン] > [パイプライン]** に移動し、**eshoponweb-ci-parameters** パイプラインを選択します。
+1. **[パイプライン]、[パイプライン]** の順に移動し、**eshoponweb-ci** パイプラインを選択します。
 
 1. **編集**を選択します。
 
-1. YAML ファイルの先頭に以下のパラメーターとリソースのセクションを追加します。
+1. YAML ファイルの先頭で、ジョブ セクションの上に次のパラメーターを追加します。
 
    ```yaml
    parameters:
@@ -68,21 +67,19 @@ lab:
      type: string
      default: 'tests/UnitTests/*.csproj'
 
-   resources:
-     repositories:
-     - repository: self
-       trigger: none
+   jobs:
+   - job: Build
+     pool: eShopOnWebSelfPool
+     steps:
 
    ```
 
-1. `Restore`、`Build`、`Test` タスクのハードコーディングされたパスを、先ほど作成したパラメーターに置き換えます。
+1. "Restore"、"Build"、および "Test" タスク内でハードコーディングされているパスを、先ほど作成したパラメーターに置き換えます。
 
    - **プロジェクトの置き換え**: `**/*.sln` プロジェクト: `Restore` および `Build` タスク内の `${{ parameters.dotNetProjects }}`。
    - **プロジェクトの置き換え**: `tests/UnitTests/*.csproj` プロジェクト: `Test` タスク内の `${{ parameters.testProjects }}`
 
-    YAML ファイルの steps セクションの `Restore`、`Build`、`Test` タスクは次のようになります。
-
-    {% raw %}
+   YAML ファイルの steps セクションの "Restore"、"Build"、および "Test" タスクは次のようになります。
 
     ```yaml
     steps:
@@ -107,9 +104,11 @@ lab:
     
     ```
 
-    {% endraw %}
+1. **[検証して保存]** をクリックして変更を保存し、**[保存]** をクリックします。
 
-1. パイプラインを保存して実行します。 パイプラインの実行が正常に完了することを確認します。
+1. **[パイプライン]、[パイプライン]** の順に移動し、自動的にトリガーされて実行されている **eshoponweb-ci** パイプラインを開きます。
+
+1. パイプラインの実行が正常に完了することを確認します。
 
    ![パラメーターを含むパイプライン実行のスクリーンショット。](media/pipeline-parameters-run.png)
 
@@ -119,9 +118,9 @@ lab:
 
 1. **[パイプライン] > [ライブラリ]** に移動します。
 
-1. **[+ 変数グループ]** ボタンを選択して、**BuildConfigurations** という名前の新しい変数グループを作成します。
+1. **[+ 変数グループ]** ボタンを選択して、`BuildConfigurations` という名前の新しい変数グループを作成します。
 
-1. **buildConfiguration** という名前の変数を追加し、その値を `Release` に設定します。
+1. `buildConfiguration` という名前の変数を追加し、その値を `Release` に設定します。
 
 1. 変数グループを保存します。
 
@@ -129,16 +128,15 @@ lab:
 
 1. **[パイプラインのアクセス許可]** ボタンを選択し、新しいパイプラインを追加する **[+]** ボタンを選択します。
 
-1. **eshoponweb-ci-parameters** パイプラインを選択して、パイプラインで変数グループを使用できるようにします。
+1. **eshoponweb-ci** パイプラインを選択して、パイプラインで変数グループを使用できるようにします。
 
    ![パイプラインのアクセス許可のスクリーンショット。](media/pipeline-permissions.png)
 
-   > [!NOTE]
-   > **[セキュリティ]** ボタンをクリックして、特定のユーザーまたはグループが変数グループを編集できるように設定することもできます。
+   > **注**: **[セキュリティ]** ボタンをクリックして、変数グループを編集できるように特定のユーザーまたはグループを設定することもできます。
 
 1. **[パイプライン] > [パイプライン]** に移動します。
 
-1. **eshoponweb-ci-parameters** パイプラインを開き、**[編集]** を選択します。
+1. **eshoponweb-ci** パイプラインを開き、**[編集]** を選択します。
 
 1. yml ファイルの先頭にあるパラメーターのすぐ下で、以下を追加して変数グループを参照します。
 
@@ -147,9 +145,7 @@ lab:
      - group: BuildConfigurations
    ```
 
-1. 'Build' タスクで、command: 'build' を以下の行に置き換えて、変数グループからビルド構成を利用します。
-
-    {% raw %}
+1. "Build" タスクで、構成パラメーターをタスクに追加して、変数グループのビルド構成を利用します。
 
     ```yaml
             command: 'build'
@@ -157,12 +153,13 @@ lab:
             configuration: $(buildConfiguration)
     ```
 
-    {% endraw %}
+1. **[検証して保存]** をクリックして変更を保存し、**[保存]** をクリックします。
 
-1. パイプラインを保存して実行します。 ビルド構成が `Release` に設定された状態で、正常に実行されます。 これを確認するには、'Build' タスクのログを確認します。
+1. **eshoponweb-ci** パイプライン実行を開きます。 これは、ビルド構成が "Release" に設定された状態で、正常に実行されます。 これを確認するには、"Build" タスクのログを調べます。
 
-> [!NOTE]
-> この方法に従うと、変数グループを使用して変数とパラメーターを保護することができ、YAML ファイルにハードコーディングする必要はありません。
+> **注**: ログでビルド構成が "Release" に設定されていない場合は、システム診断を有効にし、パイプラインを再実行して構成値を確認します。
+
+> **注**: このアプローチに従うと、YAML ファイルにハードコーディングしなくても、変数グループを使用して変数とパラメーターを保護することができます。
 
 #### タスク 4:必須の変数とパラメーターを検証する
 
@@ -170,40 +167,26 @@ lab:
 
 1. **[パイプライン] > [パイプライン]** に移動します。
 
-1. **eshoponweb-ci-parameters** パイプラインを開き、**[編集]** を選択します。
+1. **eshoponweb-ci** パイプラインを開き、**[編集]** を選択します。
 
-1. stages セクションの先頭 (`stage:` 行の後) に、パイプラインの実行前に必須の変数を検証する **Validate** という名前の新しいステージを追加します。
+1. steps セクションの先頭 (**steps:** 行の後) に、パイプラインの実行前に必須の変数を検証する新しいスクリプト タスクを追加します。
 
     ```yaml
-    - stage: Validate
-      displayName: Validate mandatory variables
-      jobs:
-      - job: ValidateVariables
-        pool:
-          vmImage: ubuntu-latest
-        steps:
-        - script: |
-            if [ -z "$(buildConfiguration)" ]; then
-              echo "Error: buildConfiguration variable is not set"
-              exit 1
-            fi
-          displayName: 'Validate Variables'
+    - script: |
+        IF NOT DEFINED buildConfiguration (
+          ECHO Error: buildConfiguration variable is not set
+          EXIT /B 1
+        )
+      displayName: 'Validate Variables'
      ```
 
-    > [!NOTE]
-    > このステージでは、buildConfiguration 変数を検証するスクリプトを実行します。 変数が設定されていない場合、スクリプトは失敗し、パイプラインは停止します。
+    > **注**: これは、変数が設定されているかどうかを確認するための簡単な検証です。 変数が設定されていない場合、スクリプトは失敗し、パイプラインは停止します。 より複雑な検証を追加して、変数の値を確認したり、変数が特定の値に設定されているかどうかを確認したりできます。
 
-1. **Build** ステージの先頭に `dependsOn: Validate` を追加して、**Build** ステージを **Validate** ステージに依存させます。
+1. **[検証して保存]** をクリックして変更を保存し、**[保存]** をクリックします。
 
-    ```yaml
-    - stage: Build
-      displayName: Build .Net Core Solution
-      dependsOn: Validate
-    ```
+1. **eshoponweb-ci** パイプライン実行を開きます。 buildConfiguration 変数が変数グループに設定されているため、正常に実行されます。
 
-1. パイプラインを保存して実行します。 buildConfiguration 変数が変数グループに設定されているため、正常に実行されます。
-
-1. 検証をテストするには、変数グループから buildConfiguration 変数を削除するか、変数グループを削除して、パイプラインをもう一度実行します。 次のエラーにより失敗します。
+1. 検証をテストするには、変数グループから buildConfiguration 変数を削除するか、この変数の名前を変更して、パイプラインをもう一度実行します。 次のエラーにより失敗します。
 
     ```yaml
     Error: buildConfiguration variable is not set   
@@ -211,7 +194,10 @@ lab:
 
     ![検証が失敗したパイプライン実行のスクリーンショット。](media/pipeline-validation-fail.png)
 
-1. 変数グループを追加し、buildConfiguration 変数を変数グループに追加し直し、パイプラインをもう一度実行します。 これは正常に実行される必要があります。
+1. 変数グループに buildConfiguration 変数を追加し直し、パイプラインをもう一度実行します。 これは正常に実行される必要があります。
+
+> [!IMPORTANT]
+> 不要な料金が発生しないように、Azure portal で作成されたリソースを必ず削除してください。
 
 ## 確認
 
