@@ -139,7 +139,7 @@ lab:
    - **location** 変数の値を、リソースをデプロイする Azure リージョンの名前 (たとえば、**centralus**) に設定します。
    - **YOUR-SUBSCRIPTION-ID** を、お使いの Azure サブスクリプション ID に置き換えます。
    - **YOUR-AZURE-SERVICE-CONNECTION-NAME** を、**azure subs** に置き換えます
-   - **YOUR-WEB-APP-NAME** を、デプロイする Web アプリのグローバル一意識別子 (たとえば、文字列 **eshoponweb-lab-multi-123456** の後に 6 桁のランダムな数字) に置き換えます。
+   - **YOUR-WEB-APP-NAME** を、デプロイする Web アプリのグローバル一意識別子 (たとえば、文字列 **eshoponweb-lab-multi-123456** の後にランダムな 6 桁の数字) に置き換えます。
 
 1. **[保存および実行]** を選択し、メイン ブランチに直接コミットすることを選択します。
 
