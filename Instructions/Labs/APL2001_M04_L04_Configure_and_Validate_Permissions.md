@@ -2,6 +2,13 @@
 lab:
   title: アクセス許可を構成して検証する
   module: 'Module 4: Configure and validate permissions'
+  description: このラボでは、最小限の特権の原則に従ってセキュリティで保護された環境を設定し、メンバーがタスクを実行し、潜在的なセキュリティ リスクを最小限に抑えるために必要なリソースにのみ確実にアクセスできるようにする方法を学びました。 ユーザーとパイプラインのアクセス許可を構成して検証し、Azure DevOps で承認とブランチ チェックを設定しました。
+  duration: 120 minutes
+  level: 400
+  islab: true
+  primarytopics:
+    - Azure
+    - Azure DevOps
 ---
 
 # アクセス許可を構成して検証する
