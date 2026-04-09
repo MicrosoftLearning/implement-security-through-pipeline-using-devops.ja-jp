@@ -2,6 +2,10 @@
 lab:
   title: 変数とパラメーターを安全に使用するようにパイプラインを構成する
   module: 'Module 7: Configure pipelines to securely use variables and parameters'
+  description: このラボでは、変数とパラメーターを安全に使用するようにパイプラインを構成する方法について学習します。
+  duration: 100 minutes
+  level: 200
+  islab: true
 ---
 
 # 変数とパラメーターを安全に使用するようにパイプラインを構成する

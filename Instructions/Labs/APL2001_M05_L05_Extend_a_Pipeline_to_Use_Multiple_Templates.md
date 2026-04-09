@@ -2,6 +2,13 @@
 lab:
   title: 複数のテンプレートを使用するようにパイプラインを拡張する
   module: 'Module 5: Extend a pipeline to use multiple templates'
+  description: このラボでは、Azure DevOps を使用してパイプラインを複数のテンプレートに拡張する方法を学びました。 このラボでは、マルチステージ パイプラインの作成、変数テンプレートの作成、ジョブ テンプレートの作成、ステージ テンプレートの作成に関する基本的な概念とベスト プラクティスについて説明しました。
+  duration: 100 minutes
+  level: 300
+  islab: true
+  primarytopics:
+    - Azure
+    - Azure DevOps
 ---
 
 # 複数のテンプレートを使用するようにパイプラインを拡張する

@@ -2,6 +2,15 @@
 lab:
   title: Azure Key Vault と Azure Pipelines の統合
   module: 'Module 6: Configure secure access to Azure Repos from pipelines'
+  description: このタスクでは、Azure portal を使用して Azure Key Vault を作成します。
+  duration: 5 minutes
+  level: 500
+  islab: true
+  primarytopics:
+    - Azure
+    - Azure Key Vault
+    - Azure Pipelines
+    - Azure Portal
 ---
 
 # Azure Key Vault と Azure Pipelines の統合

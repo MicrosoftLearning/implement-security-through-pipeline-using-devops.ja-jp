@@ -2,6 +2,13 @@
 lab:
   title: セキュリティで保護されたパイプラインをサポートするようにプロジェクトとリポジトリの構造を構成する
   module: 'Module 1: Configure a project and repository structure to support secure pipelines'
+  description: このラボでは、セキュリティで保護されたパイプラインをサポートするように Azure DevOps でプロジェクトとリポジトリの構造を構成する方法について学習します。 このラボでは、プロジェクトとリポジトリの編成、アクセス許可の割り当て、セキュリティで保護されたファイルの管理に関するベスト プラクティスについて説明します。
+  duration: 144 minutes
+  level: 400
+  islab: true
+  primarytopics:
+    - Azure
+    - Azure DevOps
 ---
 
 # セキュリティで保護されたパイプラインをサポートするようにプロジェクトとリポジトリの構造を構成する

@@ -2,6 +2,13 @@
 lab:
   title: ラボ環境を検証する
   module: 'Module 0: Welcome'
+  description: 次に、Azure DevOps にサービス接続を作成します。これにより、Azure サブスクリプションにリソースをデプロイしてアクセスできるようになります。
+  duration: 92 minutes
+  level: 400
+  islab: true
+  primarytopics:
+    - Azure
+    - Azure DevOps
 ---
 
 # ラボ環境を検証する

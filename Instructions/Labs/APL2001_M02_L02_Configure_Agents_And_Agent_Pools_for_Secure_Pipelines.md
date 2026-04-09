@@ -2,6 +2,12 @@
 lab:
   title: セキュリティで保護されたパイプライン用にエージェントとエージェント プールを構成する
   module: 'Module 2: Configure secure access to pipeline resources'
+  description: この演習では、Azure 仮想マシン (VM) を作成し、それを使ってエージェントを作成し、エージェント プールを構成します。
+  duration: 5 minutes
+  level: 400
+  islab: true
+  primarytopics:
+    - Azure
 ---
 
 # セキュリティで保護されたパイプライン用にエージェントとエージェント プールを構成する

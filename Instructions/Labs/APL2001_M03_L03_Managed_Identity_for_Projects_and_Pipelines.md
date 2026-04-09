@@ -2,6 +2,10 @@
 lab:
   title: プロジェクトとパイプラインのマネージド ID
   module: 'Module 3: Manage identity for projects, pipelines, and agents'
+  description: この演習では、マネージド ID を使用して新しいサービス接続を構成し、それを CI/CD パイプラインに組み込みます。
+  duration: 30 minutes
+  level: 400
+  islab: true
 ---
 
 # プロジェクトとパイプラインのマネージド ID
